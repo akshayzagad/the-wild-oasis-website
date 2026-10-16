@@ -1,12 +1,12 @@
 import React from "react";
 import { getCabins } from "../_lib/data-service";
 import CabinCard from "./CabinCard";
-import { unstable_cache as noStore } from "next/cache"
+import { unstable_noStore as noStore } from "next/cache"
 
 export default async function CabinList() {
   noStore();
   const cabins = await getCabins();
-
+  // console.log("Cabins:", cabins); // Log the cabins data to the console
   if (!cabins.length) return null;
 
   return (

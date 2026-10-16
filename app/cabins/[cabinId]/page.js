@@ -3,6 +3,8 @@ import Image from "next/image";
 import { notFound } from "next/navigation";
 import { getCabin, getCabins } from "../../_lib/data-service";
 
+import TextExpander from "../../_components/TextExpander";
+
 export async function generateMetadata({ params }) {
   const cabin = await getCabin(params.cabinId);
   if (!cabin) notFound();
@@ -41,7 +43,8 @@ export default async function Page({ params }) {
             Cabin {cabin.name}
           </h3>
 
-          <p className="text-lg text-primary-300 mb-10">{cabin.description}</p>
+          {/* <p className="text-lg text-primary-300 mb-10">{cabin.description}</p> */}
+          <TextExpander>{cabin.description}</TextExpander>
 
           <ul className="flex flex-col gap-4 mb-7">
             <li className="flex gap-3 items-center">
