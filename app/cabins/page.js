@@ -1,4 +1,5 @@
 import CabinList from "../_components/CabinList";
+import Filter from "../_components/Filter";
 import Spinner from "../_components/Spinner";
 import { Suspense } from "react";
 
@@ -6,7 +7,9 @@ export const metadata = {
   title: "Cabins",
 };
 
-export default function Page() {
+export default function Page({searchParams}) {
+  // console.log(searchParams);
+  const filter = searchParams?.capacity ?? "all";
   return (
     <div>
       <h1 className="text-4xl mb-5 text-accent-400 font-medium">
@@ -20,9 +23,9 @@ export default function Page() {
         home away from home. The perfect spot for a peaceful, calm vacation.
         Welcome to paradise.
       </p>
-
-      <Suspense fallback={<Spinner />}>
-        <CabinList />
+      <Filter />
+      <Suspense fallback={<Spinner />} key={filter}>
+        <CabinList filter={filter} />
       </Suspense>
     </div>
   );
