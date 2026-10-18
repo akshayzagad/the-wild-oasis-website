@@ -1,0 +1,17 @@
+import React from 'react'
+import DateSelector from './DateSelector';
+import ReservationForm from './ReservationForm';
+import { getBookedDatesByCabinId, getSettings } from '../_lib/data-service';
+
+export default async function Reservation({ cabin }) {
+    const [setting, bookedDates] = await Promise.all([
+        getSettings(),
+        getBookedDatesByCabinId(cabin.id)
+    ]);
+  return (
+    <div className="grid grid-cols-2 min-h-[400px]">
+        <DateSelector cabin={cabin} bookedDates={bookedDates} settings={setting} />
+        <ReservationForm cabin={cabin} />
+      </div>
+  )
+}

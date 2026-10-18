@@ -103,13 +103,14 @@ export async function getBookedDatesByCabinId(cabinId) {
 
   // Getting all bookings
   const { data, error } = await supabase
-    .from('bookings')
+    .from('booking')
     .select('*')
     .eq('cabinId', cabinId)
     .or(`startDate.gte.${today},status.eq.checked-in`);
 
   if (error) {
-    console.error(error);
+    // console.error(error);
+    console.error("Supabase booking error:", error);
     throw new Error('Bookings could not get loaded');
   }
 
