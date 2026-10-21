@@ -1,5 +1,14 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  async redirects() {
+    return [
+      {
+        source: "/cabins/app/auth/signin",
+        destination: "/auth/signin",
+        permanent: false,
+      },
+    ];
+  },
     images: {
     remotePatterns: [
       {
