@@ -1,7 +1,11 @@
 "use server"
 
-import { signIn } from "next-auth/react";
+import { signIn, signOut } from "next-auth/react";
 
 export async function signInAction() {
     await signIn("google",{redirect:"/account"})
+}
+
+export async function signOutAction() {
+    await signOut("google",{redirect:"/"})
 }
