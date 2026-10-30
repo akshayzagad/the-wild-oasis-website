@@ -1,26 +1,32 @@
 "use client";
 import React from 'react'
+import { updateProfile } from '../_lib/actions';
 
 
-export default function updateProfileForm({ children }) {
-    const countryFlag = "pt.jpg";
-  const nationality = "portugal";
+export default function UpdateProfileForm({ children, guest }) {
+  const countryFlag = "pt.jpg";
   return (
     <div>
-      <form className="bg-primary-900 py-8 px-12 text-lg flex gap-6 flex-col">
+      <form action={updateProfile} className="bg-primary-900 py-8 px-12 text-lg flex gap-6 flex-col">
         <div className="space-y-2">
-          <label>Full name</label>
+          <label htmlFor="fullName">Full name</label>
           <input
+            name="fullName"
             disabled
+            id="fullName"
             className="px-5 py-3 bg-primary-200 text-primary-800 w-full shadow-sm rounded-sm disabled:cursor-not-allowed disabled:bg-gray-600 disabled:text-gray-400"
+            defaultValue={guest?.fullName ?? ""}
           />
         </div>
 
         <div className="space-y-2">
-          <label>Email address</label>
+          <label htmlFor="email">Email address</label>
           <input
+            name="email"
             disabled
+            id="email"
             className="px-5 py-3 bg-primary-200 text-primary-800 w-full shadow-sm rounded-sm disabled:cursor-not-allowed disabled:bg-gray-600 disabled:text-gray-400"
+            defaultValue={guest?.email ?? ""}
           />
         </div>
 
@@ -41,6 +47,7 @@ export default function updateProfileForm({ children }) {
           <label htmlFor="nationalID">National ID number</label>
           <input
             name="nationalID"
+            id="nationalID"
             className="px-5 py-3 bg-primary-200 text-primary-800 w-full shadow-sm rounded-sm"
           />
         </div>

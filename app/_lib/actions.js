@@ -9,3 +9,7 @@ export async function signInAction() {
 export async function signOutAction() {
     await signOut("google",{redirect:"/"})
 }
+
+export async function updateProfile(formData){
+    console.log(formData);   
+}
