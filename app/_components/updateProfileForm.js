@@ -1,10 +1,17 @@
 "use client";
-import React from 'react'
+import Image from "next/image";
+import { useState } from "react";
 import { updateProfile } from '../_lib/actions';
+import SubmitButton from "./SubmitButton";
 
+export default function UpdateProfileForm({ guest, countries }) {
+  const nationality = guest?.nationality?.split("%")[0].trim().toLowerCase();
+  const [selectedCountry, setSelectedCountry] = useState(() =>
+    countries.find(
+      (country) => country.name.toLowerCase() === nationality
+    ) ?? null
+  );
 
-export default function UpdateProfileForm({ children, guest }) {
-  const countryFlag = "pt.jpg";
   return (
     <div>
       <form action={updateProfile} className="bg-primary-900 py-8 px-12 text-lg flex gap-6 flex-col">
@@ -33,14 +40,41 @@ export default function UpdateProfileForm({ children, guest }) {
         <div className="space-y-2">
           <div className="flex items-center justify-between">
             <label htmlFor="nationality">Where are you from?</label>
-            <img
-              src={countryFlag}
-              alt="Country flag"
-              className="h-5 rounded-sm"
-            />
+            {selectedCountry && (
+              <Image
+                src={selectedCountry.flag}
+                alt={`${selectedCountry.name} flag`}
+                width={32}
+                height={20}
+                className="h-5 w-8 rounded-sm object-cover"
+              />
+            )}
           </div>
 
-          {children}
+          <select
+            name="nationality"
+            id="nationality"
+            value={
+              selectedCountry
+                ? `${selectedCountry.name}%${selectedCountry.flag}`
+                : ""
+            }
+            onChange={(event) => {
+              const [name, flag] = event.target.value.split("%");
+              setSelectedCountry(name ? { name, flag } : null);
+            }}
+            className="px-5 py-3 bg-primary-200 text-primary-800 w-full shadow-sm rounded-sm"
+          >
+            <option value="">Select country...</option>
+            {countries.map((country) => (
+              <option
+                key={country.name}
+                value={`${country.name}%${country.flag}`}
+              >
+                {country.name}
+              </option>
+            ))}
+          </select>
         </div>
 
         <div className="space-y-2">
@@ -53,9 +87,7 @@ export default function UpdateProfileForm({ children, guest }) {
         </div>
 
         <div className="flex justify-end items-center gap-6">
-          <button className="bg-accent-500 px-8 py-4 text-primary-800 font-semibold hover:bg-accent-600 transition-all disabled:cursor-not-allowed disabled:bg-gray-500 disabled:text-gray-300">
-            Update profile
-          </button>
+           <SubmitButton pendingLabel="Updating...">Update profile</SubmitButton>
         </div>
       </form>
     </div>

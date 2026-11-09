@@ -1,17 +1,14 @@
-import SelectCountry from "@/app/_components/SelectCountry";
 import UpdateProfileForm from "@/app/_components/updateProfileForm";
 import { getServerSession } from "next-auth/next";
 import { authConfig } from "@/app/_lib/auth";
-import { getGuest } from "@/app/_lib/data-service";
+import { getCountries, getGuest } from "@/app/_lib/data-service";
 
 export default async function Page() {
   const session = await getServerSession(authConfig);
   const guest = session?.user?.email
   ? await getGuest(session.user.email)
   : null;
-  // console.log(`"This is a guest :" ${guest}`);
-  
-  const nationality = "portugal";
+  const countries = await getCountries();
 
   return (
     <div>
@@ -24,14 +21,7 @@ export default async function Page() {
         faster and smoother. See you soon!
       </p>
 
-      <UpdateProfileForm guest={guest}>
-        <SelectCountry
-            name="nationality"
-            id="nationality"
-            className="px-5 py-3 bg-primary-200 text-primary-800 w-full shadow-sm rounded-sm"
-            defaultCountry={guest?.nationality}
-          />
-      </UpdateProfileForm>
+      <UpdateProfileForm guest={guest} countries={countries} />
     </div>
   );
 }

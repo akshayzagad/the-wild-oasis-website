@@ -7,7 +7,7 @@ export default async function CabinList({ filter }) {
   noStore();
   
   const cabins = await getCabins();
-  console.log("Cabins:", cabins); // Log the cabins data to the console
+  // console.log("Cabins:", cabins); // Log the cabins data to the console
 
   let displayCabins = cabins;
 

@@ -13,6 +13,12 @@ const nextConfig = {
     remotePatterns: [
       {
         protocol: "https",
+        hostname: "flagcdn.com",
+        port: "",
+        pathname: "/*.svg",
+      },
+      {
+        protocol: "https",
         hostname: "mogncmpwzzznvddputnn.supabase.co",
         port: "",
         pathname: "/storage/v1/object/public/cabin-images/**",

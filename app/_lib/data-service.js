@@ -1,4 +1,5 @@
 import { eachDayOfInterval } from 'date-fns';
+import countryData from 'country-flag-emoji-json';
 import { supabase } from './supabase.js';
 /////////////
 // GET
@@ -65,7 +66,7 @@ export async function getGuest(email) {
 
 export async function getBooking(id) {
   const { data, error, count } = await supabase
-    .from('bookings')
+    .from('booking')
     .select('*')
     .eq('id', id)
     .single();
@@ -79,11 +80,11 @@ export async function getBooking(id) {
 }
 
 export async function getBookings(guestId) {
-  const { data, error, count } = await supabase
-    .from('bookings')
+  const { data, error } = await supabase
+    .from('booking')
     // We actually also need data on the cabins as well. But let's ONLY take the data that we actually need, in order to reduce downloaded data.
     .select(
-      'id, created_at, startDate, endDate, numNights, numGuests, totalPrice, guestId, cabinId, cabins(name, image)'
+      'id, created_at, startDate, endDate, numNight, numGuest, totalPrice, guestId, cabinId, cabins(name, image)'
     )
     .eq('guestId', guestId)
     .order('startDate');
@@ -139,27 +140,11 @@ export async function getSettings() {
 }
 
 export async function getCountries() {
-  const res = await fetch(
-    'https://cdn.jsdelivr.net/npm/country-flag-emoji-json@2.0.0/dist/index.json'
-  );
-
-  if (!res.ok) {
-    throw new Error(`Countries could not be loaded (${res.status})`);
-  }
-
-  const countries = await res.json();
-  if (
-    !Array.isArray(countries) ||
-    !countries.every(
-      (country) =>
-        typeof country.name === 'string' && typeof country.emoji === 'string'
-    )
-  ) {
-    throw new Error('Countries response was invalid');
-  }
-
-  return countries
-    .map(({ name, emoji }) => ({ name, flag: emoji }))
+  return countryData
+    .map(({ name, code }) => ({
+      name,
+      flag: `https://flagcdn.com/${code.toLowerCase()}.svg`,
+    }))
     .sort((a, b) => a.name.localeCompare(b.name));
 }
 

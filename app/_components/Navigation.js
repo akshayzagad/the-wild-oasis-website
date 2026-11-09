@@ -4,7 +4,7 @@ import Link from "next/link";
 
 export default async function Navigation() {
   const session = await getServerSession(authConfig);
-  console.log(session);
+  // console.log(session);
   
   return (
     <nav className="z-10 text-xl">
